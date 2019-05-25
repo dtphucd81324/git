@@ -1,0 +1,21 @@
+{% extends "backend/layouts/layout-fullpage.html.twig" %}
+
+{% block title %}
+Đăng ký thành công
+{% endblock %}
+
+{% block headline %}
+Đăng ký thành công
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col">
+            <h1>Đăng ký tài khoản thành công!</h1>
+            <h2>Xin chào {{ khachhang.kh_hoten }}. Vui lòng kiểm tra hộp thư để kích hoạt tài khoản.</h2>
+            <a href="/shop/backend/pages/dasboard.php">Quay về trang chủ</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,347 @@
+{% extends "backend/layouts/layout.html.twig" %}
+
+{% block title %}
+Thống kê
+{% endblock %}
+
+{% block headline %}
+Thống kê
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-primary mb-2">
+                <div class="card-body pb-0">
+                    <div class="text-value" id="baocaoSanPham_SoLuong">
+                        <h1>{{ baocaoSanPham.SoLuong }}</h1>
+                    </div>
+                    <div>Tổng số mặt hàng</div>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-sm form-control" id="refreshBaoCaoSanPham">Refresh dữ liệu</button>
+        </div>
+        <!-- Tổng số mặt hàng -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-success mb-2">
+                <div class="card-body pb-0">
+                    <div class="text-value" id="baocaoKhachHang_SoLuong">
+                        <h1>{{ baocaoKhachHang.SoLuong }}</h1>
+                    </div>
+                    <div>Tổng số khách hàng</div>
+                </div>
+            </div>
+            <button class="btn btn-success btn-sm form-control" id="refreshBaoCaoKhachHang">Refresh dữ liệu</button>
+        </div>
+        <!-- Tổng số khách hàng -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-warning mb-2">
+                <div class="card-body pb-0">
+                    <div class="text-value" id="baocaoDonHang_SoLuong">
+                        <h1>{{ baocaoDonHang.SoLuong }}</h1>
+                    </div>
+                    <div>Tổng số đơn hàng</div>
+                </div>
+            </div>
+            <button class="btn btn-warning btn-sm form-control" id="refreshBaoCaoDonHang">Refresh dữ liệu</button>
+        </div>
+        <!-- Tổng số đơn hàng -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-danger mb-2">
+                <div class="card-body pb-0">
+                    <div class="text-value" id="baocaoGopy_SoLuong">
+                        <h1>{{ baocaoGopY.SoLuong }}</h1>
+                    </div>
+                    <div>Tổng số góp ý</div>
+                </div>
+            </div>
+            <button class="btn btn-danger btn-sm form-control" id="refreshBaoCaoGopY">Refresh dữ liệu</button>
+        </div>
+        <!-- Tổng số góp ý -->
+    </div>
+    <!-- end row -->
+    <div class="row">
+        <!--Biêu đồ thống kê loại sản phẩm-->
+        <div class="col-sm-6 col-lg-6">
+            <canvas id="chartOfobjChartThongKeLoaiSanPham"></canvas>
+            <button class="btn btn-outline-primary btn-sm form-control" id="refreshThongKeLoaiSanPham">Refresh dữ liệu</button>
+        </div>
+
+        <!--Biểu đồ thống kê các sản phẩm bán chạy nhất-->
+        <div class="col-sm-6 col-lg-6">
+            <canvas id="chartOfobjChartThongKeTopSanPhamBanChayNhat"></canvas>
+            <button class="btn btn-outline-primary btn-sm form-control" id="refreshThongKeTopSanPhamBanChayNhat">Refresh dữ liệu</button>
+        </div>
+    </div> <!--end row-->
+
+    <div class="row">
+        <!-- Biểu đồ thống kê doanh thu -->
+        <div class="col-sm-12 col-lg-12">
+            <canvas id="chartOfobjChartThongKeDoanhThu"></canvas>
+            <button class="btn btn-outline-primary btn-sm form-control" id="refreshThongKeDoanhThu">Refresh dữ liệu</button>
+        </div>
+    </div> <!-- end row -->
+</div>
+{% endblock %}
+
+
+{% block customscripts %}
+<script src="/shop/assets/vendor/Chart.js/Chart.min.js"></script>
+<script>
+    //Refresh dữ liệu báo cáo Số lượng sản phẩm
+    $('#refreshBaoCaoSanPham').click(function(event){
+        event.preventDefault();
+
+        $.ajax('/shop/backend/ajax/baocao-tongsomathang-ajax.php',{
+            success: function(data){
+                var dataObj = JSON.parse(data);
+                var htmlString = `<h1>${dataObj.SoLuong}</h1>`;
+                $('#baocaoSanPham_SoLuong').html(htmlString);
+            }
+        });
+    });
+    // Refresh dữ liệu báo cáo số lượng khách hàng
+    function getDataBaoCaoKhachHang(){
+        console.log("data");
+
+        $.ajax('/shop/backend/ajax/baocao-tongsokhachhang-ajax.php', {
+            success: function(data){
+                var dataObj = JSON.parse(data);
+                var htmlString = `<h1>${dataObj.SoLuong}</h1>`;
+                $('#baocaoKhachHang_SoLuong').html(htmlString);
+            },
+            error: function(){
+                var htmlString = `<h1>Không thể xử lý</h1>`;
+                $('#baocaoKhachHang_SoLuong').html(htmlString);
+            }
+        });
+    };
+
+    $('#refreshBaoCaoKhachHang').click(function(event){
+        event.preventDefault();
+        getDataBaoCaoKhachHang();
+    });
+
+    //Refresh dữ liệu báo cáo Số lượng đơn hàng
+    function getDataBaoCaoDonHang(){
+        $.ajax('/shop/backend/ajax/baocao-tongsodonhang-ajax.php', {
+            success: function(data){
+                var dataObj = JSON.parse(data);
+                var htmlString = `<h1>${dataObj.SoLuong}</h1>`;
+                $('#baocaoDonHang_SoLuong').html(htmlString);
+            },
+            error: function(){
+                var htmlString = `<h1>Không thể xử lý</h1>`;
+                $('#baocaoDonHang_SoLuong').html(htmlString);
+            }
+        });
+    };
+    $('#refreshBaoCaoDonHang').click(function(event){
+        event.preventDefault();
+        getDataBaoCaoDonHang();
+    });
+
+    //Refresh dữ liệu báo cáo số lương góp ý
+    function getDataBaoCaoGopY(){
+        $.ajax('/shop/backend/ajax/baocao-tongsogopy-ajax.php', {
+            success: function(data){
+                var dataObj = JSON.parse(data);
+                var htmlString = `<h1>${dataObj.SoLuong}</h1>`;
+                $('#baocaoGopY_SoLuong').html(htmlString);
+            },
+            error: function(){
+                var htmlString = `<h1>Không thể xử lý</h1>`;
+                $('#baocaoGopY_SoLuong').html(htmlString);
+            }
+        });
+    };
+    $('#refreshBaoCaoGopY').click(function(event){
+        event.preventDefault();
+        getDataBaoCaoGopY();
+    });
+
+    //Vẽ biểu đồ thống kê loại sản phẩm
+    var $objChartThongKeLoaiSanPham;
+    var $chartOfobjChartThongKeLoaiSanPham = document.getElementById("chartOfobjChartThongKeLoaiSanPham").getContext("2d");
+    
+    function renderChartThongKeLoaiSanPham(){
+        $.ajax({
+            url: '/shop/backend/ajax/baocao-thongkeloaisanpham-ajax.php',
+            type: "GET",
+            success: function(response){
+                var data = JSON.parse(response);
+                var myLabels = [];
+                var myData = [];
+                $(data).each(function (){
+                    myLabels.push((this.TenLoaiSanPham));
+                    myData.push(this.SoLuong);
+                });
+                myData.push(0); //tạo dòng số liệu 0
+                if(typeof $objChartThongKeLoaiSanPham !== "undefined"){
+                    $objChartThongKeLoaiSanPham.destroy();
+                }
+                $objChartThongKeLoaiSanPham = new Chart($chartOfobjChartThongKeLoaiSanPham, {
+                    // Kiểu biểu đồ muốn vẽ
+                    type: "bar",
+                    data: {
+                        labels: myLabels,
+                        datasets: [{
+                            data: myData,
+                            borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                            ],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    // Cấu hình dành cho biểu đồ
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: "Thống kê Loại sản phẩm"
+                        },
+                        responsive: true
+                    }
+                });
+            }  
+        });
+    };
+
+    $('#refreshThongKeLoaiSanPham').click(function (event){
+        event.preventDefault();
+        renderChartThongKeLoaiSanPham();
+    });
+    
+    //Vẽ biểu đồ thống kế các sản phẩm bán chạy
+
+    var $objChartThongKeTopSanPhamBanChayNhat;
+    var $chartOfobjChartThongKeTopSanPhamBanChayNhat = document.getElementById("chartOfobjChartThongKeTopSanPhamBanChayNhat").getContext("2d");
+
+    function renderChartThongKeTopSanPhamBanChayNhat(){
+        $.ajax({
+            url: '/shop/backend/ajax/baocao-thongketopsanphambanchay-ajax.php', 
+            type: "GET",
+            success: function(response){
+                var data = JSON.parse(response);
+                var myLabels = [];
+                var myData = [];
+                $(data).each(function (){
+                    myLabels.push((this.TenSanPham));
+                    myData.push(this.SoLuong);
+                });
+                myData.push(0); //tạo dòng số liệu 0
+                if(typeof $objChartThongKeTopSanPhamBanChayNhat !== "undefined"){
+                    $objChartThongKeTopSanPhamBanChayNhat.destroy();
+                }
+                $objChartThongKeTopSanPhamBanChayNhat = new Chart($chartOfobjChartThongKeTopSanPhamBanChayNhat, {
+                    //Kiểu biểu đồ muốn vẽ
+                    type: "polarArea",
+                    data: {
+                        labels: myLabels,
+                        datasets: [{
+                            data: myData,
+                            borderColor: "#39e6dd",
+                            backgroundColor: "#39e6dd",
+                            borderWidth: 1
+                        }]
+                    },
+                    options:{
+                        legend:{
+                            display: false
+                        },
+                        title:{
+                            display: true,
+                            text: "Thống kế sản phẩm bán chạy nhất"
+                        },
+                        responsive: true
+                    }
+                });
+            }
+        });
+    };
+    $('#refreshThongKeTopSanPhamBanChayNhat').click(function (event){
+        event.preventDefault();
+        renderChartThongKeTopSanPhamBanChayNhat();
+    });
+    //Biểu đồ thống kê doanh thu
+
+    var $objChartThongKeDoanhThu;
+    var $chartOfobjChartThongKeDoanhThu = document.getElementById("chartOfobjChartThongKeDoanhThu").getContext("2d");
+
+    function renderChartThongKeDoanhThu(){
+        $.ajax({
+            url: '/shop/backend/ajax/baocao-thongkedoanhthu-ajax.php',
+            type: "GET",
+            success: function(response){
+                var data = JSON.parse(response);
+                var myLabels = [];
+                var myData = [];
+                $(data).each(function () {
+                    myLabels.push((this.NgayTaoDonHang));
+                    myData.push(this.TongThanhTien);
+                });
+                myData.push(0); //tạo dòng số liệu 0
+                if(typeof $objChartThongKeDoanhThu !== "undefined"){
+                    $objChartThongKeDoanhThu.destroy();
+                }
+                $objChartThongKeDoanhThu = new Chart($chartOfobjChartThongKeDoanhThu, {
+                    // Kiểu biểu đồ muốn vẽ
+                    type: "line",
+                    data: {
+                        labels: myLabels,
+                        datasets: [{
+                            data: myData,
+                            borderColor: "#EE291B",
+                            backgroundColor: "#EE291B",
+                            borderWidth: 1
+                        }]
+                    },
+                // Cấu hình dành cho biểu đồ của ChartJS
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: "Thống kê Doanh thu"
+                        },
+                        responsive: true
+                    } 
+                });
+            }
+        });
+    };
+    $('#refreshThongKeDoanhThu').click(function (event){
+        event.preventDefault();
+        renderChartThongKeDoanhThu();
+    });
+
+    //Init khi load trang
+        console.log("asfsdhfjdshjdk");
+    $(document).ready(function (){
+        $('#baocaoDonHang_SoLuong').html("htmlString");
+        getDataBaoCaoKhachHang();
+        getDataBaoCaoDonHang();
+        getDataBaoCaoGopY();
+        renderChartThongKeLoaiSanPham();
+        renderChartThongKeTopSanPhamBanChayNhat();
+        renderChartThongKeDoanhThu();
+    });
+</script>
+{% endblock %}
