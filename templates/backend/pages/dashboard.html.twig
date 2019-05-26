@@ -103,8 +103,6 @@ Thống kê
     });
     // Refresh dữ liệu báo cáo số lượng khách hàng
     function getDataBaoCaoKhachHang(){
-        console.log("data");
-
         $.ajax('/shop/backend/ajax/baocao-tongsokhachhang-ajax.php', {
             success: function(data){
                 var dataObj = JSON.parse(data);
@@ -333,9 +331,8 @@ Thống kê
     });
 
     //Init khi load trang
-        console.log("asfsdhfjdshjdk");
+        
     $(document).ready(function (){
-        $('#baocaoDonHang_SoLuong').html("htmlString");
         getDataBaoCaoKhachHang();
         getDataBaoCaoDonHang();
         getDataBaoCaoGopY();

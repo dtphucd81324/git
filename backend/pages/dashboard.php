@@ -15,6 +15,21 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     );
 }
 
+//Lấy dữ liệu khách hàng
+$sttKH = 1;
+$sqlSoLuongKhachHang = "SELECT count(*) as SoLuong FROM `khachhang`";
+
+$resultKhachHang = mysqli_query($conn, $sqlSoLuongKhachHang);
+
+$dataSoLuongKhachHang = [];
+
+while($row = mysqli_fetch_array($resultKhachHang, MYSQLI_ASSOC)){
+    $dataSoLuongKhachHang[] = array(
+        'SoLuong' => $row['SoLuong']
+    );
+}
+
 echo $twig->render('backend/pages/dashboard.html.twig', [
-    'baocaoSanPham' => $dataSoLuongSanPham[0]
+    'baocaoSanPham' => $dataSoLuongSanPham[0],
+    'baocaoKhachHang' => $dataSoLuongKhachHang[0]
 ]);
