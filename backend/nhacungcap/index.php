@@ -15,5 +15,8 @@
             'ncc_mota' => $row['ncc_mota'],
         );
     }
+    if(!isset($_SESSION['username'])){
+        header('location:./../pages/login.php');
+    }
     echo $twig->render('backend/nhacungcap/index.html.twig',['ds_nhacungcap' => $data]);
 ?>
