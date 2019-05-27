@@ -1,0 +1,23 @@
+{% extends "backend/layouts/layout.html.twig" %}
+
+{% block title %}
+Import loại sản phẩm
+{% endblock %}
+
+{% block headline %}
+Import loại sản phẩm
+{% endblock %}
+
+{% block content %}
+<a href="/shop/assets/uploads/templates/MauDuLieu_LoaiSanPham.xlsx" class="btn btn-success">
+    <span data-feather="excel"></span>Mẫu Import dữ liệu XLSX
+</a>
+
+<form name="frmimport" id="frmimport" method="post" action="/shop/backend/loaisanpham/import.php" class="form" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="taptindulieu">Tập tin dữ liệu</label>
+        <input type="file" class="form-control" id="taptindulieu" name="taptindulieu" />
+    </div>
+    <button class="btn btn-primary" name="btnImport">Import dữ liệu vào hệ thống</button>
+</form>
+{% endblock %}
