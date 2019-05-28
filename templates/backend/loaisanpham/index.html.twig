@@ -14,6 +14,11 @@ Danh sách loại sản phẩm
 <a href="create.php" class="btn btn-primary">
     <span data-feather="plus"></span>Thêm mới
 </a>
+
+<!--Nút import dữ liệu-->
+<a href="import.php" class="btn btn-success">
+    <span data-feather="plus"></span>Import dữ liệu
+</a>
 <table class="table table-bordered table-hover mt-2">
     <thead class="thead-dark">
         <tr>
@@ -24,7 +29,7 @@ Danh sách loại sản phẩm
         </tr>
     </thead>
     <tbody>
-        {% for loaisanpham in DSloaisanpham %}
+        {% for loaisanpham in DSloaisanpham.data %}
         <tr>
             <td>{{ loaisanpham.lsp_ma }}</td>
             <td>{{ loaisanpham.lsp_ten }}</td>
@@ -44,4 +49,5 @@ Danh sách loại sản phẩm
         {% endfor %}
     </tbody>
 </table>
+{{ paginator.createLinks()|raw }}
 {% endblock %}

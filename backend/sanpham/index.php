@@ -1,6 +1,7 @@
 <?php 
     require_once __DIR__.'/../../bootstrap.php';
     include_once(__DIR__.'/../../dbconnect.php');
+    include_once(__DIR__.'/../../Paginator.php');
 
     $sql = <<<EOT
     SELECT sp.*
@@ -13,21 +14,27 @@
     LEFT JOIN `khuyenmai` km ON sp.km_ma = km.km_ma
     ORDER BY sp.sp_ma DESC
 EOT;
-    $result = mysqli_query($conn, $sql);
 
-    $data = [];
-    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+    $limit      = (isset($_GET['limit'])) ? $_GET['limit'] : 5;
+    $page       = (isset($_GET['page'])) ? $_GET['page'] : 1;
+    $paginator  = new Paginator($twig, $conn, $sql);
+    $data       = $paginator->getData($limit, $page);
+    $data       = $data->data;
+
+    $formatedData = [];
+    foreach($data as $row){
         $km_tomtat = '';
         if(!empty($row['km_ten'])){
+            //sử dụng hàm sprintf()
             $km_tomtat = sprintf("Khuyến mãi %s, nội dung: %s, thời gian: %s-%s",
                 $row['km_ten'],
                 $row['km_noidung'],
                 //sử dụng hàm date($format, $timestamp) để chuyển đổi ngày thành định dạng Việt Nam
                 // Do hàm date() nhận vào là đối tượng thời gian, chúng ta cần sử dụng hàm strtotime() để chuyển đổi từ chuỗi có định dạng 'yyyy-mm-dd' trong MYSQL thành đối tượng ngày tháng
                 date('d/m/Y', strtotime($row['km_tungay'])),
-                date('d/m/Y', strtotime($row['km_denngay'])));            
-        }
-        $data[] = array(
+                date('d/m/Y', strtotime($row['km_denngay'])));   
+    }
+        $formatedData[] = array(
             'sp_ma' => $row['sp_ma'],
             'sp_ten' => $row['sp_ten'],
             'sp_mota' => $row['sp_mota'],
@@ -44,6 +51,9 @@ EOT;
             'km_tomtat' => $km_tomtat
         );
     }
-    echo $twig->render('backend/sanpham/index.html.twig', ['ds_sanpham' => $data]);
+    echo $twig->render('backend/sanpham/index.html.twig', [
+        'ds_sanpham' => $formatedData,
+        'paginator'  => $paginator
+        ]);
     
 ?>

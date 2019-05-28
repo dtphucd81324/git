@@ -8,6 +8,17 @@ class Paginator{
     private $twig;
 
     public function __construct($twig, $conn, $query){
+
+        $this->twig = $twig;
+        $this->conn = $conn;
+        $this->query = $query;
+
+        $rs = $this->conn->query($this->query);
+        $this->total = $rs->num_rows;
+    }
+
+    public function getData($limit = 10, $page = 1){
+
         $this->limit = $limit;
         $this->page = $page;
 
@@ -20,14 +31,14 @@ class Paginator{
         $rs = $this->conn->query($query);
 
         while($row = $rs->fetch_assoc()){
-            $result[] = $row;
+            $results[] = $row;
         }
 
         $result         = new stdClass();
         $result->page   = $this->page;
         $result->limit  = $this->limit;
         $result->total  = $this->total;
-        $result->data   = $result;
+        $result->data   = $results;
 
         return $result;
     }
@@ -43,7 +54,7 @@ class Paginator{
         $html = $this->twig->render('shared/pagination/index.html.twig',[
             'page' => $this->page,
             'limit' => $this->limit,
-            'total' => $this->totalm,
+            'total' => $this->total,
             'first' => $first,
             'last' => $last    
         ]);
