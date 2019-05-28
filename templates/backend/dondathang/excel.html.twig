@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- Thông tin shop -->
+    <table>
+        <tr>
+            <td style="width: 30px; border: solid salmon;">
+                <img src="C:\xampp\htdocs\shop\images\logo.png" width="100px" height="100px" data-phpspreadsheet-offset-x="20" data-phpspreadsheet-offset-y="10"/>
+            </td>
+            <td colspan="4" style="word-wrap: normal; border: solid salmon;">
+                <b style="font-size: 2em">Thiên Đường Hoa - Nơi tôn lên vẻ đẹp</b><br/>
+                <small>Cung cấp sỉ & lẻ về các loại hoa Lan, Hồ Điệp, Hoa Hồng, Hoa cho ngày Cưới...</small>
+                <small>Là nơi để quý khách gửi trọn niềm tin và cũng là niềm tự hào của chúng tôi khi được phục vụ quý khách</small>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" style="border: solid salmon"><b>Thông tin đơn hàng</b></td>
+        </tr>
+        <tr>
+            <td style="width: 30px; border: solid salmon">Khách hàng:</td>
+            <td colspan="4">
+                <b>{{ dondathang.kh_ten }} ({{ dondathang.kh_sdt }})</b>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: solid salmon">Ngày lập:</td>
+            <td colspan="4"><b>{{ dondathang.dh_ngaydat }}</b></td>
+        </tr>
+        <tr>
+            <td style="border: solid salmon">Hình thức thanh toán:</td>
+            <td colspan="4"><b>{{ dondathang.httt.httt_ten }}</b></td>
+        </tr>
+        <tr>
+            <td style="border: solid salmon">Tổng Thành Tiền:</td>
+            <td colspan="4"><b>{{ dondathang.TongThanhTien }}</b></td>
+        </tr>
+        <tr>
+            <td colspan="5" style="border: solid salmon"><b>Chi tiết đơn hàng:</b></td>
+        </tr>
+        <tr>
+            <th style="text-align: center; vertical-align: center; border: solid salmon">STT</th>
+            <th style="text-align: center; vertical-align: center; border: solid salmon">Sản phẩm</th>
+            <th style="text-align: center; vertical-align: center; border: solid salmon">Số lượng</th>
+            <th style="text-align: center; vertical-align: center;width: 15px;border: solid salmon">Đơn giá</th>
+            <th style="text-align: center; vertical-align: center;width: 25px;border: solid salmon">Thành tiền</th>
+        </tr>
+        {% for sanpham in dondathang.danhsachsanpham %}
+        <tr>
+            <td style="text-align: center; vertical-align: center;border:  solid salmon">{{ loop.index }}</td>
+            <td style="text-align: center; vertical-align: center;word-wrap: normal;width: 24px;border:  solid salmon">
+                <b>{{ sanpham.sp_ten }}</b><br/>
+                <small><i>{{ sanpham.lsp_ten }}</i></small>
+                <small><i>{{ sanpham.ncc_ten }}</i></small>
+            </td>
+            <td style="text-align: center; vertical-align: center;border:  solid salmon">{{ sanpham.sp_soluong }}</td>
+            <td style="text-align: center; vertical-align: center;border:  solid salmon">{{ sanpham.gia }}</td>
+            <td style="text-align: center; vertical-align: center;border:  solid salmon">{{ sanpham.sp_soluong * sanpham.sp_gia }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4" style="text-align: right; border: solid salmon"><b>Tổng thành tiền</b></td>
+            <td style="text-align: right; border: solid salmon">{{ dondathang.TongThanhTien}}</td>
+        </tr>
+        <tr>
+            <td style="border: solid red; text-align: center" colspan="5">
+                <small>Xin cám ơn Quý khách đã tin tưởng và ủng hộ Cửa hàng. Chúc Quý khách An Khang, Thịnh Vượng!</small>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
