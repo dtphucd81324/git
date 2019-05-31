@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<a class="navbar-brand" href="/shop/frontend/pages/index.php"><img src="/shop/images/logo.png" width="30px"><b style="color: salmon">Flowers - PV</b></a>
+    <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/shop/frontend/pages/index.php">Trang chủ <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/shop/frontend/sanpham/danhsach.php">Sản phẩm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/shop/frontend/pages/gioithieu.php">Giới thiệu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/shop/frontend/pages/lienhe.php">Liên hệ</a>
+            </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
+        </form>
+    </div>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="/shop/frontend/thanhtoan/giohang.php">Giỏ hàng</a>
+        </li>
+        <li class="nav-item text-nowrap">
+            {% if session['username'] %}
+            <!-- Nếu đã đăng nhập thì hiển thị nút Đăng xuất -->
+            <a class="nav-link" href="/shop/frontend/pages/logout.php">Đăng xuất</a>
+            {% else %}
+            <!-- Nếu chưa đăng nhập thì hiển thị nút Đăng nhập -->
+            <a class="nav-link" href="/shop/frontend/pages/login.php">Đăng nhập</a>
+            {% endif %}
+        </li>
+    </ul>
+</nav>

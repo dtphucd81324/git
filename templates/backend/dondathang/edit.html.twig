@@ -9,7 +9,7 @@ Xử lý đơn đặt hàng
 {% endblock %}
 
 {% block content %}
-<form name="frmdondathang" id="frmdondathang" method="POST" action="/shop/backend/dondathang/edit_xuly?dh_ma={{ dondathang.dh_ma }}">
+<form name="frmdondathang" id="frmdondathang" method="POST" action="/shop/backend/dondathang/edit_xuly.php?dh_ma={{ dondathang.dh_ma }}">
     <div class="form-group">
         <label for="dh_ma">Mã đơn đặt hàng</label>
         <input type="text" class="form-control" name="dh_ma" id="dh_ma" placeholder="Mã đơn đặt hàng" readonly value="{{ dondathang.dh_ma }}" />
@@ -18,15 +18,15 @@ Xử lý đơn đặt hàng
     <div class="form-group">
         <label for="">Thông tin tổng quát đơn đặt hàng</label>
         <ul>
-            <li><b>Khách hàng:</b><small class="text-muted">{{ dondathang.kh_hoten }} ({{ dondathang.kh_sdt }})</small></li>
-            <li><b>Ngày lập:</b><small class="text-muted">{{ dondathang.dh_ngaydat }}</small></li>
-            <li><b>Hình thức thanh toán:</b><small class="text-muted">{{ dondathang.httt_ten }}</small></li>
-            <li><b>Tổng thành tiền:</b><small class="text-muted">{{ dondathang.TongThanhTien }}</small></li>
+            <li><b>Khách hàng:</b><small class="text-muted"> {{ dondathang.kh_hoten }} ({{ dondathang.kh_sdt }})</small></li>
+            <li><b>Ngày lập:</b><small class="text-muted"> {{ dondathang.dh_ngaydat }}</small></li>
+            <li><b>Hình thức thanh toán:</b><small class="text-muted"> {{ dondathang.httt_ten }}</small></li>
+            <li><b>Tổng thành tiền:</b><small class="text-muted"> {{ dondathang.TongThanhTien }}</small></li>
         </ul>
     </div>
     <div class="form-group">
         <label for="dh_ngaygiao">Ngày giao hàng</label>
-        <input type="text" class="form-control" name="dh_ngaygiao" id="dh_ngaygiao" placeholder="Ngày giao hàng" />
+        <input type="date" class="form-control" name="dh_ngaygiao" id="dh_ngaygiao" placeholder="Ngày giao hàng" />
     </div>
     <div class="form-group">
         <label for="dh_noigiao">Nơi giao hàng</label>

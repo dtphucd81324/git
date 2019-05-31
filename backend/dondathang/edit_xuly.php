@@ -9,17 +9,17 @@ SELECT
     SUM(ctdh.ctdh_soluong * ctdh.ctdh_dongia) AS TongThanhTien
 FROM `dondathang` ddh
 JOIN `chitietdonhang` ctdh ON ddh.dh_ma = ctdh.dh_ma
-JOIN `khachhang` kh ON ddh.kh_ma = kh.kh_ma
+JOIN `khachhang` kh ON ddh.kh_tendangnhap = kh.kh_tendangnhap
 JOIN `hinhthucthanhtoan` httt ON ddh.httt_ma = httt.httt_ma
 GROUP BY ddh.dh_ma, ddh.dh_ngaydat, ddh.dh_ngaygiao, ddh.dh_noigiao, ddh.dh_trangthaithanhtoan, httt.httt_ten, kh.kh_hoten, kh.kh_sdt 
 EOT;
 
 //thực thi
 $resultSelect = mysqli_query($conn, $sqlSelect);
-$dondathangRow = [];
+$dondathangRow;
 
 while($row = mysqli_fetch_array($resultSelect, MYSQLI_ASSOC)){
-    $dondathangRow[] = array(
+    $dondathangRow = array(
         'dh_ma' => $row['dh_ma'],
         'dh_ngaydat' => date('d/m/Y H:i:s', strtotime($row['dh_ngaydat'])),
         'dh_ngaygiao' => empty($row['dh_ngaygiao']) ? '' : date('d/m/Y H:i:s', strtotime($row['dh_ngaygiao'])),

@@ -1,0 +1,115 @@
+{% extends "backend/layouts/layout-print.html.twig" %}
+
+{% block title %}
+In Đơn đặt hàng
+{% endblock %}
+
+{% block headline %}
+In Đơn đặt hàng
+{% endblock %}
+
+{% block customstyles %}
+<!-- Định khổ giấy -->
+<style>
+    body{
+        font-family: 'DejaVu Sans;';
+        font-size: 0.8em;
+    }
+
+    @page{
+        size: A4
+    }
+</style>
+{% endblock %}
+
+{% block papersize %}A4{% endblock %}
+
+{% block content %}
+<section class="sheet padding-10mm">
+    <!-- Thông tin cửa hàng -->
+    <table border="0" width="100%" cellspacing="0" >
+        <tbody>
+            <tr>
+                <td align="center">
+                    <img src="http://localhost/shop/images/logo.png" width="100px" height="100px" />
+                </td>
+                <td align="center">
+                    <b style="font-size: 2em">Thiên Đường Hoa - Nơi tôn lên vẻ đẹp</b><br/>
+                    <small>Cung cấp sỉ & lẻ về các loại hoa Lan, Hồ Điệp, Hoa Hồng, Hoa Cưới.</small><br/>
+                    <small>Là nơi để Quý khách gửi trọn niềm tin và cũng là niềm tự hào của chúng tôi khi được phục vụ Quý khách.</small>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Thông tin đơn hàng -->
+    <b><p style="color: salmon"><i><u>Thông tin Đơn hàng:</u></i></p></b>
+    <table>
+        <tbody>
+            <tr>
+                <td width="40%">Khách hàng:</td>
+                <td>
+                    <b>{{ dondathang.kh_hoten }} ({{ dondathang.kh_sdt }}) </b>
+                </td>
+            </tr>
+            <tr>
+                <td>Ngày lập:</td>
+                <td><b>{{ dondathang.dh_ngaydat }}</b></td>
+            </tr>
+            <tr>
+                <td>Hình thức thanh toán:</td>
+                <td><b>{{ dondathang.httt_ten }}</b></td>
+            </tr>
+            <tr>
+                <td>Tổng Thành Tiền:</td>
+                <td><b>{{ dondathang.TongThanhTien }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Thông tin sản phẩm -->
+    <b><p style="color: salmon"><i><u>Chi tiết đơn hàng:</u></i></p></b>
+    <table border="1" width="100%" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sanpham in dondathang.danhsachsanpham %}
+            <tr>
+                <td align="center">{{ loop.index }}</td>
+                <td>
+                    <b>{{ sanpham.sp_ten }}</b><br/>
+                    <small style="color: salmon">{{ sanpham.lsp_ten }}</small><br/>
+                    <small style="color: salmon">{{ sanpham.ncc_ten }}</small>
+                </td>
+                <td align="right">{{ sanpham.sp_soluong }}</td>
+                <td align="right">{{ sanpham.sp_gia }}</td>
+                <td align="right">{{ sanpham.sp_soluong * sanpham.sp_gia }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" align="right"><b>Tổng Thành tiền</b></td>
+                <td align="right">{{ dondathang.TongThanhTien }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    <!-- Thông tin footer -->
+    <br/>
+    <table border="0" width="100%">
+        <tbody>
+            <tr>
+                <td align="center">
+                    <small><b>Xin cám ơn Quý khách đã tin tưởng và ủng hộ Cửa hàng. Chúc Quý khách An Khang, Thịnh Vượng!</b></small>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}

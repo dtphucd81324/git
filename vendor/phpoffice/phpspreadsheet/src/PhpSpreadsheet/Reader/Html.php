@@ -521,7 +521,8 @@ class Html extends BaseReader
                             //create merging colspan
                             $columnTo = $column;
                             for ($i = 0; $i < $attributeArray['colspan'] - 1; ++$i) {
-                                ++$columnTo;
+                                // ++$columnTo;
+                                $this->applyInlineStyle($sheet, $row, ++$columnTo, $attributeArray);
                             }
                             $sheet->mergeCells($column . $row . ':' . $columnTo . $row);
                             $column = $columnTo;
@@ -839,13 +840,15 @@ class Html extends BaseReader
         $width = isset($attributes['width']) ? (float) $attributes['width'] : null;
         $height = isset($attributes['height']) ? (float) $attributes['height'] : null;
         $name = isset($attributes['alt']) ? (float) $attributes['alt'] : null;
+        $offsetX = isset($attributes['data-phpspreadsheet-offset-x']) ? (int) $attributes['data-phpspreadsheet-offset-x'] : 0;
+        $offsetY = isset($attributes['data-phpspreadsheet-offset-y']) ? (int) $attributes['data-phpspreadsheet-offset-y'] : 0;
 
         $drawing = new Drawing();
         $drawing->setPath($src);
         $drawing->setWorksheet($sheet);
         $drawing->setCoordinates($column . $row);
-        $drawing->setOffsetX(0);
-        $drawing->setOffsetY(10);
+        $drawing->setOffsetX($offsetX);
+        $drawing->setOffsetY($offsetY);
         $drawing->setResizeProportional(true);
 
         if ($name) {
@@ -919,15 +922,17 @@ class Html extends BaseReader
      */
     private function setBorderStyle(Style $cellStyle, $styleValue, $type)
     {
-        list(, $borderStyle, $color) = explode(' ', $styleValue);
+        list($borderStyle, $color) = explode(' ', $styleValue);
 
-        $cellStyle->applyFromArray([
+        $arr = [
             'borders' => [
                 $type => [
                     'borderStyle' => $this->getBorderStyle($borderStyle),
                     'color' => ['rgb' => $this->getStyleColor($color)],
                 ],
             ],
-        ]);
+        ];
+        // dd($borderStyle, $color, $arr);
+        $cellStyle->applyFromArray($arr);
     }
 }

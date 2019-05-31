@@ -27,7 +27,7 @@ Danh sách Đơn đặt hàng
         {% for dondathang in ds_dondathang %}
         <tr>
             <td>{{ dondathang.dh_ma }}</td>
-            <td><b>{{ dondathang.kh_ten }}</b><br/>({{ dondathang.kh_sdt }})</td>
+            <td><b>{{ dondathang.kh_hoten }}</b><br/>({{ dondathang.kh_sdt }})</td>
             <td>{{ dondathang.dh_ngaydat }}</td>
             <td>{{ dondathang.ngaygiao }}</td>
             <td>{{ dondathang.dh_noigiao }}</td>
@@ -54,6 +54,10 @@ Danh sách Đơn đặt hàng
                 <!-- Nút xuất excel -->
                 <a href="excel.php?dh_ma={{ dondathang.dh_ma }}" class="btn btn-primary">
                     <span data-feather="edit"></span>Excel
+                </a>
+                <!--Nút xuất PDF-->
+                <a href="pdf.php?dh_ma={{ dondathang.dh_ma }}" class="btn btn-primary">
+                    <span data-feather="edit"></span>PDF
                 </a>
                 <!-- Nút in -->
                 <a href="in.php?dh_ma={{ dondathang.dh_ma }}" class="btn btn-success">
